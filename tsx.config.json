@@ -1,0 +1,6 @@
+{
+  "loader": "native",
+  "watch": {
+    "ignore": ["**/test/**", "**/dist/**"]
+  }
+}
