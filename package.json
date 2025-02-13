@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "tsx watch src/app.ts"
+    "dev": "tsx watch src/app.ts",
+    "swagger": "curl http://localhost:3000/swagger.json > swagger.json"
   },
   "keywords": [
     "express",
