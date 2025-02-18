@@ -1,8 +1,7 @@
 import { Express, Router } from 'express'
-import { UserController } from '../controllers/user.controllers'
-// import 'reflect-metadata'
-
-
+import { LoginController } from '../controllers/login.controller';
+import { UserController } from '../controllers/user.controller'
+import { UploadController } from '../controllers/upload.controller';
 // 注册控制器
 function registerControllers(controllers: any[], app: Express) {
   controllers.forEach(ControllerClass => {
@@ -32,7 +31,9 @@ function registerControllers(controllers: any[], app: Express) {
 }
 
 export const controllers = [
-  UserController
+  LoginController,
+  UserController,
+  UploadController
 ]
 
 

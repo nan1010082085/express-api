@@ -15,7 +15,13 @@ export function Controller(basePath: string = '') {
   }
 }
 
-// 路由装饰器
+/**
+ * 路由装饰器
+ * @param method 方法
+ * @param path 路径
+ * @param middlewares 中间件
+ * @returns 
+ */
 export function Route(method: HttpMethod, path: string = '', ...middlewares: RequestHandler[]) {
   return (target: any, propertyKey: string) => {
     Reflect.defineMetadata('httpMethod', method.toLowerCase(), target, target.name)

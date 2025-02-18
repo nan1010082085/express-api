@@ -9,7 +9,7 @@ export function ApiOperation(summary: string) {
 
 /**
  * url 路径
- * @description 路径 /get/{id} 
+ * @description 路径 /get/{id}
  */
 export function ApiPath(path: string) {
   return (target: any, propertyKey: string) => {
@@ -41,9 +41,52 @@ export function ApiQuery(params: OpenAPIV3.ParameterObject[]) {
  * body 对象
  * @description
  */
-export function ApiBody(schema: OpenAPIV3.RequestBodyObject) {
+
+interface ApiBodySchema {
+  name: string
+  type: string
+  description: string
+  required?: boolean
+}
+
+export function ApiBody(schema: ApiBodySchema[]) {
   return (target: any, propertyKey: string) => {
-    Reflect.defineMetadata('body', schema, target, target.name)
+    if (Object.prototype.toString.call(schema) !== '[object Array]') return
+    const properties = {}
+    schema.forEach((item) => {
+      properties[item.name] = {
+        type: item.type,
+        description: item.description,
+        required: item?.required || false
+      }
+    })
+
+    let SchemaObject: OpenAPIV3.RequestBodyObject = {
+      description: '用户信息',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: properties
+          }
+        }
+      },
+      required: true
+    }
+    Reflect.defineMetadata('body', SchemaObject, target, target.name)
+  }
+}
+
+export function ApiFile(fieldName: string, required: boolean = true, description: string = '文件上传') {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    // 存储文件元数据
+    const files = Reflect.getMetadata('fileParams', target, target.name) || []
+    files.push({
+      name: fieldName,
+      required,
+      description
+    })
+    Reflect.defineMetadata('fileParams', files, target, target.name)
   }
 }
 

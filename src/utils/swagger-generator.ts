@@ -6,7 +6,7 @@ export function generateSwaggerPaths(controllers: any[]): OpenAPIV3.PathsObject 
   controllers.forEach((Controller) => {
     const instance = new Controller()
     const methods = Object.getOwnPropertyNames(Controller.prototype)
-    const basePath = Reflect.getMetadata('basePath', Controller.prototype) || '';
+    const basePath = Reflect.getMetadata('basePath', Controller.prototype) || ''
     const proto = Object.getPrototypeOf(instance)
 
     methods.forEach((methodName) => {
@@ -15,16 +15,36 @@ export function generateSwaggerPaths(controllers: any[]): OpenAPIV3.PathsObject 
       const path = Reflect.getMetadata('pathParam', target, methodName)
       const httpMethod = Reflect.getMetadata('method', target, methodName)?.toLowerCase()
       if (!path || !httpMethod) return
-      
+
       const operation = Reflect.getMetadata('operation', target, methodName)
       const paramParams = Reflect.getMetadata('param', target, methodName)
       const queryParams = Reflect.getMetadata('query', target, methodName)
       const requestBody = Reflect.getMetadata('body', target, methodName)
+      const fileParams = Reflect.getMetadata('fileParams', target, methodName) || []
+      let requestFileBody = {}
+      if (fileParams.length > 0) {
+        requestFileBody = {
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                properties: {
+                  [fileParams[0].name]: {
+                    type: 'string',
+                    format: 'binary' // 关键：标记为二进制文件
+                  }
+                },
+                required: fileParams[0].required ? [fileParams[0].name] : []
+              }
+            }
+          }
+        }
+      }
       const responses = Reflect.getMetadata('responses', target, methodName)
 
       const parameters: OpenAPIV3.ParameterObject[] = [
         ...(paramParams?.map((p: OpenAPIV3.ParameterObject) => ({ ...p, in: 'path' })) || []),
-        ...(queryParams?.map((p: OpenAPIV3.ParameterObject) => ({ ...p, in: 'query' })) || []),
+        ...(queryParams?.map((p: OpenAPIV3.ParameterObject) => ({ ...p, in: 'query' })) || [])
       ]
 
       // 创建api对象
@@ -36,7 +56,7 @@ export function generateSwaggerPaths(controllers: any[]): OpenAPIV3.PathsObject 
           url: path
         },
         parameters, // 参数
-        requestBody, // body
+        requestBody: { ...requestBody, ...requestFileBody }, // body
         responses: responses || {}
       }
 
@@ -44,7 +64,6 @@ export function generateSwaggerPaths(controllers: any[]): OpenAPIV3.PathsObject 
       paths[path][httpMethod] = pathObj
     })
   })
-
 
   return paths
 }
