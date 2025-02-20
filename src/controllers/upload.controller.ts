@@ -35,4 +35,34 @@ export class UploadController {
     }
     res.json({ message: 'File uploaded successfully' })
   }
+
+  @Post('/picture', upload.single('file'))
+  // @Validate([check('file').notEmpty()])
+  @ApiOperation('上传照片')
+  @ApiPath('/upload/picture') // Swagger 路径
+  @ApiFile('file', true, '上传的文件') // 文件字段名
+  @ApiResponse(200, '上传成功')
+  @ApiResponse(500, '文件不能为空')
+  uploadPicture(req: Request & { file: File }, res: Response) {
+    console.log(req.file);
+    if (!req.file) {
+      return res.status(400).json({ message: '文件不能为空' })
+    }
+    res.json({ message: 'File uploaded successfully' })
+  }
+
+  @Post('/avatar', upload.single('file'))
+  // @Validate([check('file').notEmpty()])
+  @ApiOperation('上头像片')
+  @ApiPath('/upload/avatar') // Swagger 路径
+  @ApiFile('file', true, '上传的文件') // 文件字段名
+  @ApiResponse(200, '上传成功')
+  @ApiResponse(500, '文件不能为空')
+  uploadAvatar(req: Request & { file: File }, res: Response) {
+    console.log(req.file);
+    if (!req.file) {
+      return res.status(400).json({ message: '文件不能为空' })
+    }
+    res.json({ message: 'File uploaded successfully' })
+  }
 }

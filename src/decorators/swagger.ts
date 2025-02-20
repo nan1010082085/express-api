@@ -57,7 +57,7 @@ export function ApiBody(schema: ApiBodySchema[]) {
       properties[item.name] = {
         type: item.type,
         description: item.description,
-        required: item?.required || false
+        required: item?.required? [item.type] : []
       }
     })
 

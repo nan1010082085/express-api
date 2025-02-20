@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Controller, Get, Post } from '../decorators'
+import { Controller, Get, Post, Put } from '../decorators'
 import { ApiOperation, ApiBody, ApiParam, ApiQuery, ApiResponse, ApiPath } from '../decorators/swagger'
 import { Validate } from '../decorators/validator'
 import { PaginationValid } from '../middleware'
@@ -63,7 +63,7 @@ export class UserController {
   /**
    * 更新用户
    */
-  @Post('/update')
+  @Put('/update')
   @Validate([body('userId').notEmpty(), body('username').notEmpty()])  
   @ApiOperation('更新用户')
   @ApiPath('/users/update')
