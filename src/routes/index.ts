@@ -3,6 +3,7 @@ import { LoginController } from '../controllers/login.controller';
 import { UserController } from '../controllers/user.controller'
 import { UploadController } from '../controllers/upload.controller';
 import { LogsController } from '../controllers/logs.controller';
+import { StatisticsController } from '../controllers/statistics.controller';
 // 注册控制器
 function registerControllers(controllers: any[], app: Express) {
   controllers.forEach(ControllerClass => {
@@ -23,7 +24,7 @@ function registerControllers(controllers: any[], app: Express) {
       
       if (method && path !== undefined) {
         router[method](path, ...validations ,...middlewares, handler);
-        console.log(`✅ 路由 ${method.toUpperCase()} ${basePath}${path} 已注册验证`);
+        console.log(`✅ 路由 ${method.length == 3 ? method.toUpperCase() + ' ' : method.toUpperCase()} 已注册 --> ${basePath}${path}`);
       }
     });
 
@@ -35,7 +36,8 @@ export const controllers = [
   LoginController,
   UserController,
   UploadController,
-  LogsController
+  LogsController,
+  StatisticsController
 ]
 
 

@@ -1,7 +1,13 @@
+/**
+ * @Author Yang (yang dong nan)
+ * @Date 2025年2月24日 09:38:48
+ * @LastEditorAuthors yangdongnan
+ * @LastDate 2025年2月24日 09:38:48
+ * @Description 文件 | 图片上传
+ */
+
 import { Controller, Post } from '../decorators'
 import { Request, Response } from 'express'
-import { Validate } from '../decorators/validator'
-import { check } from 'express-validator'
 import { ApiFile, ApiOperation, ApiPath, ApiResponse } from '../decorators/swagger'
 import multer from 'multer'
 import process from 'node:process'
