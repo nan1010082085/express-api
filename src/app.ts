@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import cors from 'cors';
 import dotenv from 'dotenv'
 import morgan from 'morgan';
-import swagger from './plugins/swagger'
+import useSwagger from './plugins/swagger'
 import useRoutes from './routes'
 dotenv.config()
 
@@ -13,8 +13,7 @@ app.use(express.json())
 app.use(cors())
 // 日志
 app.use(morgan('dev'))
-
-// route
+// 注册路由
 useRoutes(app)
 
 
@@ -23,7 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // swagger
-swagger(app)
+useSwagger(app)
 
 const PORT = 3000
 app.listen(PORT, () => {

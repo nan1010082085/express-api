@@ -32,7 +32,7 @@ export class LogsController {
    */
   @Get('/users')
   @Validate(PaginationValid())
-  @ApiOperation('获取用户日志')
+  @ApiOperation('用户日志')
   @ApiPath('/logs/users')
   @ApiParam([
     { in: 'query', name: 'page', required: true, description: '页码', schema: { type: 'integer' } },
@@ -46,7 +46,7 @@ export class LogsController {
   /**
    * 文件上传日志
    */
-  @Get('upload')
+  @Get('/upload')
   @Validate(PaginationValid())
   @ApiOperation('文件上传日志')
   @ApiPath('/logs/upload')
@@ -57,5 +57,18 @@ export class LogsController {
   @ApiResponse(200, '获取文件上传日志成功', { type: 'array', items: { type: 'string' } })
   getUploadLogs(req: Request, res: Response) {
     res.json('get upload logs')
+  }
+
+  @Get('/stat')
+  @Validate(PaginationValid())
+  @ApiOperation('统计日志')
+  @ApiPath('/logs/stat')
+  @ApiParam([
+    { in: 'query', name: 'page', required: true, description: '页码', schema: { type: 'integer' } },
+    { in: 'query', name: 'limit', required: true, description: '每页数量', schema: { type: 'integer' } }
+  ])
+  @ApiResponse(200, '获取统计日志成功', { type: 'array', items: { type: 'string' } })
+  getStatLogs(req: Request, res: Response) {
+    res.json('get stat logs')
   }
 }

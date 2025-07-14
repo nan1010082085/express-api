@@ -22,5 +22,5 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions)
 
 export default (app: Express) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-  app.get('/swagger.json', (req: Request, res: Response) => res.json(swaggerSpec))
+  app.get('/swagger.json', (_: Request, res: Response) => res.json(swaggerSpec))
 }
