@@ -36,7 +36,7 @@ export const Get = (path?: string, ...middlewares: RequestHandler[]) => Route(Ht
 // Post
 export const Post = (path?: string, ...middlewares: RequestHandler[]) => Route(HttpMethod.POST, path, ...middlewares)
 // PUT
-export const Put = (path?: string, ...middlewares: RequestHandler[]) => Route(HttpMethod.POST, path, ...middlewares)
+export const Put = (path?: string, ...middlewares: RequestHandler[]) => Route(HttpMethod.PUT, path, ...middlewares)
 // Delete
 export const Delete = (path?: string, ...middlewares: RequestHandler[]) =>
   Route(HttpMethod.DELETE, path, ...middlewares)

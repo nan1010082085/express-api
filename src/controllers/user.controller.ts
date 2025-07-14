@@ -85,7 +85,7 @@ export class UserController {
   @ApiResponse(200, '更新成功')
   @ApiResponse(500, '更新失败')
   updateUser(req: Request, res: Response) {
-    if(!req.body?.id) return res.status(500).json({ msg: '更新失败' })
-    res.json({ id: req.body.id, ...req.body })
+    if(!req.body?.userId) return res.status(500).json({ msg: '更新失败' })
+    res.json({ id: req.body.userId, ...req.body })
   }
 }
